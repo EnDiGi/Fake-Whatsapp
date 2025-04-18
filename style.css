@@ -1,0 +1,185 @@
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+#chat_ui{
+
+    width: 100%; /* DA CAMBIARE */
+    height: fit-content;
+
+    margin: 0;
+    margin-left: auto;
+
+    background-image: url('bg.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    z-index: 0;
+}
+
+#chat {
+    height: 82dvh;   
+    padding: 10px;
+
+    overflow-y: scroll; 
+}
+
+/* Scroll bar */
+   
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px; 
+    background-color: #c9c9c9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #b6b6b6;
+}
+
+
+
+/* Bubbles */
+
+.bubble {
+    width: fit-content;
+    max-width: 60%;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 15px;
+    position: relative;
+    font-family: sans-serif;
+    line-height: 1.4;
+}
+
+.bubble_text {
+    margin: auto;
+}
+
+.bubble_time {
+    font-size: 0.85rem;
+    color: #667790;
+    margin: auto;
+}
+
+.bubble_sent .bubble_time{
+    text-align: right;
+}
+
+.bubble_received .bubble_time {
+    text-align: left;
+}
+
+.bubble_sent {
+    background-color: #ddf9d3;
+    margin-left:auto;
+    border-top-right-radius: 0px;
+}
+
+.bubble_received {
+    background-color: #ffffff;
+    margin-right: auto;
+    border-top-left-radius: 0px;
+}
+
+/* Input section */
+
+#input_div{
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    padding: 3px;
+    z-index: 10;
+    vertical-align: middle;
+    display: flex;
+}
+
+#msg_input_div{    
+    width: 90%;
+    height: 6dvh;
+    border-radius: 40px;
+    background-color: white;
+    display:flex;
+}
+
+#emoji_button {
+    margin: 0.5dvh;
+    height: 5dvh;
+    width: 5dvh;
+    background-color: #ffffff;
+}
+
+#emoji_button:hover{
+    background-color: #dddddd
+}
+
+#msg_input {
+    width: 90%;
+    border: none;
+    border-radius: 40px;
+    background-color: white;
+    font-size: 1rem;
+    margin-right: 3px;
+    padding: 0, 10px, 0, 53px
+}
+
+#send_button {
+    border: none;
+    width: 6dvh;
+    height: 6dvh;
+    background-color: rgb(78, 219, 78); /* DA CAMBIARE */
+    margin-left: 3px;
+}
+
+#send_button:hover {
+    background-color: rgb(67, 184, 67)
+}
+
+
+/* Info section */
+
+#chat_info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+    font-family: sans-serif;
+
+    height: 8dvh;
+    font-size: 2em;
+    color: white;
+    background: none;
+    background-color: rgb(78, 219, 78); /* DA CAMBIARE */
+    z-index: 5;
+}
+
+#contact_image {
+    height: 6dvh;
+    width: 6dvh;
+}
+
+#contact_name {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href ="style.css">
+    <title>Fake chat</title>
+</head>
+<body>
+    <div id="chat_ui">
+
+        <header id = "chat_info">
+            <img class = "profile_photo circle" id = "contact_image" src = "blank_profile_picture.png" width = "3dvh" height = "3dvh">
+            <p id = "contact_name">Some example guy that has got a really long name</p>
+        </header>
+        
+        <div id = "chat">
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">Hi! How are you?</p>
+                    <p class = "bubble_time">15:30</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">I'm fine. How about you?</p>
+                    <p class = "bubble_time">16:00</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">I'm ok thanks</p>
+                    <p class = "bubble_time">16:01</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">What are you doing?</p>
+                    <p class = "bubble_time">16:03</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">I'm with my dog at the park. You know, just some normal stuff. And yes, I'm making the message long so you notice word-wrap works. It took way more than it should have</p>
+                    <p class = "bubble_time">16:05</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">Wow! I also notice a beautiful scrollbar there! When you use it it changes color too!</p>
+                    <p class = "bubble_time">16:06</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">Isn't it wonderful?</p>
+                    <p class = "bubble_time">16:07</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">Yes, it is!</p>
+                    <p class = "bubble_time">16:00</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">Why do I feel like both of us are lying?</p>
+                    <p class = "bubble_time">I'm tired of writing the time</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">Because it's true</p>
+                    <p class = "bubble_time">..</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_sent">
+                    <p class = "bubble_text">Yeah, this interface sucks</p>
+                    <p class = "bubble_time">...</p>
+                </div>
+            </div>
+            <div class = "message">
+                <div class="bubble bubble_received">
+                    <p class = "bubble_text">I know, right?</p>
+                    <p class = "bubble_time">...</p>
+                </div>
+            </div>
+
+            
+
+            
+        </div>
+        <div id = "input_div">
+            <div id="msg_input_div">
+                <img src = "icons/happy_emoji.svg" class = "circle" id = "emoji_button">
+                <input id = "msg_input" placeholder = "Scrivi un messaggio">
+            </div>
+            
+            <button id = "send_button" class = "circle">
+                <img src = "icons/send_icon.svg">
+            </button>
+        </div>
+
+    </div>
+        
+
+</body>
+</html>
