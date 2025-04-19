@@ -5,107 +5,116 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href ="style.css">
+    <link  href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
     <title>Fake chat</title>
 </head>
 <body>
+    <div id = "overlay"></div>
+    
+    <div id = "contact_popup" class = "popup">        
+        <h3 style = "display: flex; gap: 70px">Create contact<button onclick = "closeContactPopup()" id = "close_contact_popup" class = "close_button">&times;</button></h3>
+        <div class = "center">
+            <img class = "circle profile_picture" id = "new_contact_image_preview" width = "100" height = "100" src = "blank_profile_picture.png">
+        </div>
+        <button style = "display: none;" id = "contact_crop_button" class = "cut_confirm_button done_button" onclick = "cut_contact_image()">Crop</button><br>
+        <div style = "display: flex; gap: 5px;">
+            <label>Image: </label><input type="file" accept="image/*" id = "new_contact_img_input"><br>
+        </div>
+        <div style = "display: flex; gap: 0px;">
+            <label for = "new_contact_name_input">Name: </label><input id = "new_contact_name_input"><br>
+        </div>
+        <button id = "contact_done" class = "done_button" onclick = "finishContactCreation()">Done</button>
+    </div>
+
+    <div id = "group_popup" class = "popup">        
+        <h3 style = "display: flex; gap: 70px">Create group<button onclick = "closeGroupPopup()" id = "close_group_popup" class = "close_button">&times;</button></h3>
+        <div class = "center">
+            <img class = "circle profile_picture" id = "new_group_image_preview" width = "100" height = "100" src = "blank_profile_picture.png">
+        </div>
+        <button style = "display: none;" id = "group_crop_button" class = "cut_confirm_button done_button" onclick = "cut_group_image()">Crop</button><br>
+        <div style = "display: flex; gap: 5px;">
+            <label>Image: </label><input type="file" accept="image/*" id = "new_group_img_input"><br>
+        </div>
+        <div style = "display: flex; gap: 0px;">
+            <label for = "new_group_name_input">Name: </label><input id = "new_group_name_input"><br>
+        </div>
+        <div id = "new_group_participants">
+            <details>
+                <summary id = "participants_label">Choose participants</summary>
+                <div id = "participants_list">
+
+                </div>
+            </details>
+        </div>
+        <button id = "group_done" class = "done_button" onclick = "finishGroupCreation()">Done</button>
+    </div>
+
+    <div id = "message_sender_popup" class = "popup">        
+        <h3 style = "display: flex; gap: 70px">Select sender<button onclick = "closeSenderPopup()" id = "close_contact_popup" class = "close_button">&times;</button></h3>
+        <div id="possible_sender_list">
+
+        </div>
+    </div>
+
+
+
+    <div id = "chat_list_ui">
+        <h1>Chats</h1>
+
+        <div id = "chat_list">
+
+        </div>
+        
+        <div id = "new_button_container">
+            <button id = "new_group_button" class = "new_button" onclick = "openGroupPopup()">New group</button>
+            <button id = "new_contact_button" class = "new_button" onclick = "openContactPopup()">New contact</button>
+        </div>
+    </div>
+    
+    
+    
     <div id="chat_ui">
 
         <header id = "chat_info">
             <img class = "profile_photo circle" id = "contact_image" src = "blank_profile_picture.png" width = "3dvh" height = "3dvh">
-            <p id = "contact_name">Some example guy that has got a really long name</p>
+            <p id = "contact_name"></p>
+            
+            <div id="ellipsis_menu">
+                <button id = "menu_button" onclick = "toggleVisibility('menu_dropdown')">⋮</button>
+                <div id="menu_dropdown" style = "visibility: hidden;">
+                  <input type = "checkbox" id = "receive_button_checkbox">
+                  <label for = "receive_button_checkbox">Remove receive button</label><br>
+                  <button>Elimina</button><br>
+                  <button>Condividi</button>
+                </div>
+              </div>
         </header>
         
         <div id = "chat">
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">Hi! How are you?</p>
-                    <p class = "bubble_time">15:30</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">I'm fine. How about you?</p>
-                    <p class = "bubble_time">16:00</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">I'm ok thanks</p>
-                    <p class = "bubble_time">16:01</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">What are you doing?</p>
-                    <p class = "bubble_time">16:03</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">I'm with my dog at the park. You know, just some normal stuff. And yes, I'm making the message long so you notice word-wrap works. It took way more than it should have</p>
-                    <p class = "bubble_time">16:05</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">Wow! I also notice a beautiful scrollbar there! When you use it it changes color too!</p>
-                    <p class = "bubble_time">16:06</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">Isn't it wonderful?</p>
-                    <p class = "bubble_time">16:07</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">Yes, it is!</p>
-                    <p class = "bubble_time">16:00</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">Why do I feel like both of us are lying?</p>
-                    <p class = "bubble_time">I'm tired of writing the time</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">Because it's true</p>
-                    <p class = "bubble_time">..</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_sent">
-                    <p class = "bubble_text">Yeah, this interface sucks</p>
-                    <p class = "bubble_time">...</p>
-                </div>
-            </div>
-            <div class = "message">
-                <div class="bubble bubble_received">
-                    <p class = "bubble_text">I know, right?</p>
-                    <p class = "bubble_time">...</p>
-                </div>
-            </div>
 
-            
-
-            
         </div>
+
         <div id = "input_div">
             <div id="msg_input_div">
                 <img src = "icons/happy_emoji.svg" class = "circle" id = "emoji_button">
                 <input id = "msg_input" placeholder = "Scrivi un messaggio">
             </div>
-            
-            <button id = "send_button" class = "circle">
-                <img src = "icons/send_icon.svg">
+
+            <button style = "visibility: visible;" id = "receive_button" class = "circle" onclick = "sendMessage('CONTACT')">
+                <img src = "icons/send.svg">
             </button>
+            
+            <button id = "send_button" class = "circle" onclick = "sendMessage()">
+                <img src = "icons/send.svg">
+            </button>
+
         </div>
 
     </div>
-        
+    
+
+    <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
+    <script src = "script.js"></script>
 
 </body>
 </html>
