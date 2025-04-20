@@ -20,7 +20,7 @@
         <div style = "display: flex; gap: 5px;">
             <label>Image: </label><input type="file" accept="image/*" id = "new_contact_img_input"><br>
         </div>
-        <div style = "display: flex; gap: 0px;">
+        <div style = "display: flex;">
             <label for = "new_contact_name_input">Name: </label><input id = "new_contact_name_input"><br>
         </div>
         <button id = "contact_done" class = "done_button" onclick = "finishContactCreation()">Done</button>
@@ -56,10 +56,24 @@
         </div>
     </div>
 
+    <div id="import_popup" class="popup">            
+        <h3 style = "display: flex; gap: 70px">Import chats<button onclick = "closeImportPopup(true)" id = "close_contact_popup" class = "close_button">&times;</button></h3>
+        <input type = "file" accept = ".json" id = "json_file_input">
+        <button id = "group_done" class = "done_button" onclick = "closeImportPopup()">Done</button>
+    </div>
 
 
     <div id = "chat_list_ui">
-        <h1>Chats</h1>
+        <div id="title_section">
+            <h1 style = "width: 99%; display: flex; align-items: center;">Chats</h1>
+            <button class = "small_button" onclick="openImportPopup()">
+                <img src = "icons/import.svg"></img>
+            </button>
+            <button class = "small_button" onclick="exportChats()">
+                <img src = "icons/export.svg"></img>
+            </button>
+        </div>
+        
 
         <div id = "chat_list">
 
@@ -84,8 +98,6 @@
                 <div id="menu_dropdown" style = "visibility: hidden;">
                   <input type = "checkbox" id = "receive_button_checkbox">
                   <label for = "receive_button_checkbox">Remove receive button</label><br>
-                  <button>Elimina</button><br>
-                  <button>Condividi</button>
                 </div>
               </div>
         </header>

@@ -10,6 +10,7 @@ const contact_name = document.getElementById("contact_name")
 const contact_image = document.getElementById("contact_image")
 
 const overlay = document.getElementById("overlay")
+
 const contact_popup = document.getElementById("contact_popup")
 const new_contact_image_preview = document.getElementById("new_contact_image_preview");
 const new_contact_name_input = document.getElementById("new_contact_name_input");
@@ -22,6 +23,8 @@ const group_crop_button = document.getElementById("group_crop_button")
 
 const sender_popup = document.getElementById("message_sender_popup")
 const possible_sender_list = document.getElementById("possible_sender_list")
+
+const import_popup = document.getElementById("import_popup")
 
 const getContactFromId = id => chats_list.find(chat => chat.id == id);
 const getNameFromId = id => chats_list.find(chat => chat.id == id).name;
@@ -36,9 +39,7 @@ function getImageFromContact(contact){
 const name_colors = ["red", "blue", "limegreen", "yellow", "green", "purple", "orange"]
 
 let chats_list = [
-    {"id": 0, "name": "Test", "image": "BLANK"},
-    {"id": 1, "name": "Test 2", "image": "BLANK"},
-    {"id": 2, "name": "Test group", "image": "BLANK"}
+    {"id": 0, "name": "Test", "image": "BLANK"}
 ]
 let chats = [
     {
@@ -50,32 +51,37 @@ let chats = [
             {"text": "Or simply use ENTER", "from": "ME","timestamp": 1713462000000},
             {"text": "or SHIFT + ENTER", "from": "CONTACT","timestamp": 1713462000000}
         ]
-    },
-    {
-        "is_group": false,
-        "name": "Test 2",
-        "chat": [
-            {"text": "Use the right-pointing arrow to send messages as yourself", "from": "ME","timestamp": 1713462000000},
-            {"text": "And use the left-pointing one to receive messages!", "from": "CONTACT", "timestamp": 1713462000000},
-            {"text": "Or simply use ENTER", "from": "ME","timestamp": 1713462000000},
-            {"text": "or SHIFT + ENTER", "from": "CONTACT","timestamp": 1713462000000}
-        ]
-    },
-    {
-        "is_group": true,
-        "name": "Test group",
-        "participants": [0, 1],
-        "chat": [
-            {"text": "Hi!", "from": 0, "timestamp": 1713462000000},
-            {"text": "Hi everyone!", "from": "ME", "timestamp": 1713462000000},
-            {"text": "Hi!", "from": 1, "timestamp": 1713462000000},
-        ]
     }
 ]
+
 
 function convertTimestampToString(timestamp){
     return (new Date(timestamp).toLocaleTimeString()).slice(0, 5)
 }
+
+function toggleVisibility(id, remove = false){
+    if(remove){
+        if(document.getElementById(id).style.display == "none"){
+            document.getElementById(id).style.display = "block"
+        } else{       
+            document.getElementById(id).style.display = "none"
+        }
+    } else{
+        if(document.getElementById(id).style.visibility == "hidden"){
+            document.getElementById(id).style.visibility = "visible"
+        } else{       
+            document.getElementById(id).style.visibility = "hidden"
+        }
+    }
+}
+
+
+
+
+
+
+
+// CHATS
 
 function update_chats(){
     chat_list.innerHTML = "";
@@ -83,8 +89,8 @@ function update_chats(){
     for(let contact of chats_list){
         let chat_div = document.createElement("div");
         chat_div.className = "chat_div"
-
-
+        
+        
         let chat_image = document.createElement("img");
         chat_image.src = getImageFromContact(contact)
         chat_image.className = "circle list_profile_picture profile_picture"
@@ -94,22 +100,32 @@ function update_chats(){
         chat_button.textContent = contact.name;
         chat_button.className = "chat_button"
         chat_button.onclick = function(){changeChat(contact)}
-
+        
         chat_div.appendChild(chat_image)
         chat_div.appendChild(chat_button)
         chat_list.appendChild(chat_div)
     }
 }
 
-function setPage(){
-    update_chats()
+function changeChat(contact_data){
 
-    changeChat(chats_list[0])
+    let chat_data
+
+    chat_div.innerHTML = ""; // Cleares the chat
+
+    current_chat_id = contact_data.id
+    chat_data = chats[contact_data.id]
+    
+    contact_name.textContent = chat_data.name
+    contact_image.src = getImageFromContact(contact_data)
+
+    for(let message of chat_data.chat){
+        addMessageToChat(message)        
+    }
 }
 
-
-
 function addMessageToChat(data){
+
 
     let isYours = data.from == "ME";
 
@@ -148,28 +164,10 @@ function addMessageToChat(data){
     chat_div.scrollTop = chat_div.scrollHeight;
 
     message_input.value = ""
-
 }
-
-function changeChat(contact_data){
-
-    let chat_data
-
-    chat_div.innerHTML = ""; // Cleares the chat
-
-    current_chat_id = contact_data.id
-    chat_data = chats[contact_data.id]
-    
-    contact_name.textContent = chat_data.name
-    contact_image.src = getImageFromContact(contact_data)
-
-    for(let message of chat_data.chat){
-        addMessageToChat(message)        
-    }
-}
-
 
 function sendMessage(from = "ME"){
+
     message = message_input.value;
 
     if(!message.trim()) return
@@ -181,53 +179,26 @@ function sendMessage(from = "ME"){
     
     message_input.value= "";
 
-    addMessageToChat({
+    let message_obj = {
         "text": message,
         "from": from,
         "timestamp": Date.now()
-    })
-}
-
-function openSenderPopup(message){
-    overlay.style.display = "block"
-    sender_popup.style.display = "block"
-
-
-    for(let contact_id of chats[current_chat_id].participants){
-
-        let contact = getContactFromId(contact_id)
-
-        let chat_div = document.createElement("div")
-        chat_div.className = "chat_div"
-
-        let chat_image = document.createElement("img");
-        chat_image.src = getImageFromContact(contact)
-        chat_image.className = "circle list_profile_picture profile_picture"
-
-        let chat_button = document.createElement('button');
-        chat_button.textContent = contact.name;
-        chat_button.className = "chat_button"
-        chat_button.onclick = function(){
-            addMessageToChat({
-                "text": message,
-                "from": contact.id,
-                "timestamp": Date.now()
-            });
-            closeSenderPopup()
-        };
-
-        chat_div.appendChild(chat_image)
-        chat_div.appendChild(chat_button)
-        possible_sender_list.appendChild(chat_div)
     }
     
+    chats[current_chat_id].chat.push(message_obj)
+
+    addMessageToChat(message_obj)
 }
 
-function closeSenderPopup(){    
-    overlay.style.display = "none"
-    sender_popup.style.display = "none"
-    possible_sender_list.innerHTML = ""
-}
+
+
+
+
+
+
+// POPUPS
+
+let cropper;
 
 function openContactPopup(){
     overlay.style.display = "block";
@@ -238,8 +209,77 @@ function closeContactPopup(){
     overlay.style.display = "none";
     contact_popup.style.display = "none"
     new_contact_image_preview.src = blank_profile_picture
-    contact_name.value = ""
+    document.getElementById("new_contact_img_input").value = ""
+    new_contact_name_input.value = ""
 }
+
+function finishContactCreation(){
+    let contact_name = new_contact_name_input.value.trim()
+
+    if(!contact_name){
+        alert("Insert a name")
+        return
+    }
+
+    createNewContact(contact_name, new_contact_image_preview.src)
+    closeContactPopup()    
+}
+
+document.getElementById("new_contact_img_input").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        new_contact_image_preview.src = event.target.result;
+
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(new_contact_image_preview, {
+            aspectRatio: 1,
+            viewMode: 1,
+        });
+        
+        contact_crop_button.style.display = "block"
+        document.getElementById("contact_done").disabled = true;
+    };
+    reader.readAsDataURL(file);
+});
+
+function cut_contact_image() {
+
+    contact_crop_button.style.display = "none"
+
+    const canvas = cropper.getCroppedCanvas({
+        width: 300,
+        height: 300
+    });
+    cropper.destroy()
+    const imageDataURL = canvas.toDataURL()
+    new_contact_image_preview.src = imageDataURL;
+    document.getElementById("contact_done").disabled = false;
+}
+
+function createNewContact(name, image){
+    let new_contact = {
+        "name": name,
+        "image": image,
+        "id": chats_list.length
+    }
+
+    chats_list.push(new_contact)
+    update_chats()
+    chats.push(
+        {
+            "is_group": false,
+            "name": new_contact.name,
+            "chat": []
+        }
+    )
+}
+
+
+
 
 function openGroupPopup(){
     overlay.style.display = "block";
@@ -260,26 +300,47 @@ function openGroupPopup(){
     }
 }
 
-function closeGroupPopup(){
-    
+function closeGroupPopup(){    
     overlay.style.display = "none";
     group_popup.style.display = "none";
     document.getElementById("participants_list").innerHTML = ""
     new_group_image_preview.src = blank_profile_picture
     new_group_name_input.value = ""
-    
 }
 
-function finishContactCreation(){
-    let contact_name = new_contact_name_input.value.trim()
+document.getElementById("new_group_img_input").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-    if(!contact_name){
-        alert("Insert a name")
-        return
-    }
 
-    createNewContact(contact_name, new_contact_image_preview.src)
-    closeContactPopup()    
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        new_group_image_preview.src = event.target.result;
+
+        if (cropper) cropper.destroy();
+        cropper = new Cropper(new_group_image_preview, {
+            aspectRatio: 1,
+            viewMode: 1,
+        });
+        
+        group_crop_button.style.display = "block"
+        document.getElementById("group_done").disabled = true;
+    };
+    reader.readAsDataURL(file);
+});
+
+function cut_group_image() {
+
+    group_crop_button.style.display = "none"
+
+    const canvas = cropper.getCroppedCanvas({
+        width: 300,
+        height: 300
+    });
+    cropper.destroy()
+    const imageDataURL = canvas.toDataURL()
+    new_group_image_preview.src = imageDataURL;
+    document.getElementById("group_done").disabled = false;
 }
 
 function finishGroupCreation(){
@@ -306,7 +367,6 @@ function finishGroupCreation(){
     
     createNewGroup(group_name, new_group_image_preview.src, participants_ids)
     closeGroupPopup()
-
 }
 
 function createNewGroup(name, image, participants_ids){
@@ -329,112 +389,177 @@ function createNewGroup(name, image, participants_ids){
     )
 }
 
-let cropper;
-
-document.getElementById("new_contact_img_input").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
 
 
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        new_contact_image_preview.src = event.target.result;
 
-        if (cropper) cropper.destroy();
-        cropper = new Cropper(new_contact_image_preview, {
-            aspectRatio: 1,
-            viewMode: 1,
-        });
-        
-        contact_crop_button.style.display = "block"
-        document.getElementById("contact_done").disabled = true;
-    };
-    reader.readAsDataURL(file);
-});
-
-document.getElementById("new_group_img_input").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
+function openSenderPopup(message){
+    overlay.style.display = "block"
+    sender_popup.style.display = "block"
 
 
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        new_group_image_preview.src = event.target.result;
+    for(let contact_id of chats[current_chat_id].participants){
 
-        if (cropper) cropper.destroy();
-        cropper = new Cropper(new_group_image_preview, {
-            aspectRatio: 1,
-            viewMode: 1,
-        });
-        
-        group_crop_button.style.display = "block"
-        document.getElementById("group_done").disabled = true;
-    };
-    reader.readAsDataURL(file);
-});
+        let contact = getContactFromId(contact_id)
 
-function cut_contact_image() {
+        let chat_div = document.createElement("div")
+        chat_div.className = "chat_div"
 
-    contact_crop_button.style.display = "none"
+        let chat_image = document.createElement("img");
+        chat_image.src = getImageFromContact(contact)
+        chat_image.className = "circle list_profile_picture profile_picture"
 
-    const canvas = cropper.getCroppedCanvas({
-        width: 300,
-        height: 300
-    });
-    cropper.destroy()
-    const imageDataURL = canvas.toDataURL()
-    new_contact_image_preview.src = imageDataURL;
-    document.getElementById("contact_done").disabled = false;
+        let chat_button = document.createElement('button');
+        chat_button.textContent = contact.name;
+        chat_button.className = "chat_button"
+        chat_button.onclick = function(){
+            let message_obj = {
+                "text": message,
+                "from": contact.id,
+                "timestamp": Date.now()
+            }
+            addMessageToChat(message_obj)
+            chats[current_chat_id].chat.push(message_obj)
+            closeSenderPopup()
+        };
+
+        chat_div.appendChild(chat_image)
+        chat_div.appendChild(chat_button)
+        possible_sender_list.appendChild(chat_div)
+    }
+    
 }
 
-function cut_group_image() {
-
-    group_crop_button.style.display = "none"
-
-    const canvas = cropper.getCroppedCanvas({
-        width: 300,
-        height: 300
-    });
-    cropper.destroy()
-    const imageDataURL = canvas.toDataURL()
-    new_group_image_preview.src = imageDataURL;
-    document.getElementById("group_done").disabled = false;
+function closeSenderPopup(){    
+    overlay.style.display = "none"
+    sender_popup.style.display = "none"
+    possible_sender_list.innerHTML = ""
 }
 
 
-function createNewContact(name, image){
-    let new_contact = {
-        "name": name,
-        "image": image,
-        "id": chats_list.length
+
+
+
+
+
+
+
+// IMPORT & EXPORT
+
+
+let jsonData;
+
+function isValidChatData(data) {
+    if (!Array.isArray(data)) return false;
+
+    for (let contact of data) {
+        if (
+            typeof contact.name !== "string" &&
+            typeof contact.id !== "number" &&
+            typeof contact.image !== "string" &&
+            !Array.isArray(contact.chat)
+        ) return false;
+
+        for (let msg of contact.chat) {
+            if (
+                typeof msg.text !== "string" &&
+                (typeof msg.from !== "string" || typeof msg.from !== "number") &&
+                typeof msg.timestamp !== "number"
+            ) return false;
+        }
     }
 
-    chats_list.push(new_contact)
+    return true;
+}
+
+function openImportPopup(){
+    overlay.style.display = "block";
+    import_popup.style.display = "block"
+}
+
+function closeImportPopup(is_close_button = false){
+    if(!is_close_button)
+        {if(!isValidChatData(jsonData)){
+            alert("That isn't valid data");
+            return
+        }
+
+        importChats(jsonData)
+    }
+    
+
+    overlay.style.display = "none";
+    import_popup.style.display = "none"
+}
+
+document.getElementById('json_file_input').addEventListener('change', function(event) {
+    const file = event.target.files[0];  
+    if (file) {
+        const reader = new FileReader(); 
+        reader.onload = function(e) {
+            jsonData = JSON.parse(e.target.result); 
+        };
+        reader.readAsText(file);
+    }
+});
+
+function importChats(data){
+    console.log(data)
+
+    for(let contact of data){
+        let chatData = {
+            "is_group": contact.is_group,
+            "name": contact.name,
+            "chat": contact.chat
+        }
+
+        let contact_data = {
+            "id": chats.length,
+            "name": contact.name,
+            "image": contact.image
+        }
+
+        chats.push(chatData)
+        chats_list.push(contact_data)
+    }
+
+
     update_chats()
-    chats.push(
-        {
-            "is_group": false,
-            "name": new_contact.name,
-            "chat": []
-        }
-    )
 }
 
-function toggleVisibility(id, remove = false){
-    if(remove){
-        if(document.getElementById(id).style.display == "none"){
-            document.getElementById(id).style.display = "block"
-        } else{       
-            document.getElementById(id).style.display = "none"
-        }
-    } else{
-        if(document.getElementById(id).style.visibility == "hidden"){
-            document.getElementById(id).style.visibility = "visible"
-        } else{       
-            document.getElementById(id).style.visibility = "hidden"
-        }
+
+
+
+function exportChats() {
+
+    const chatsToExport = chats.slice(1, chats.length)
+    console.log(chatsToExport)
+
+    for(let chat of chatsToExport){
+        chat.image = chats_list[chats.indexOf(chat)].image
     }
+
+    if(chatsToExport.length == 0){
+        alert("You didn't create any chat")
+        return
+    }
+
+
+    const json = JSON.stringify(chatsToExport, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "chats.json";
+    a.click();
+
+
+    URL.revokeObjectURL(url);
 }
+
+
+
+
 
 document.getElementById("receive_button_checkbox").addEventListener("change", function(){
     toggleVisibility("receive_button", true)
@@ -449,5 +574,13 @@ document.addEventListener("keydown", function(event) {
         }
     }
 });
+
+
+
+function setPage(){
+    update_chats()
+
+    changeChat(chats_list[0])
+}
 
 setPage()
