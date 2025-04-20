@@ -120,7 +120,7 @@ function changeChat(contact_data){
     contact_image.src = getImageFromContact(contact_data)
 
     for(let message of chat_data.chat){
-        addMessageToChat(message)        
+        addMessageToChat(message)
     }
 }
 
@@ -486,7 +486,8 @@ function closeImportPopup(is_close_button = false){
         importChats(jsonData)
     }
     
-
+    document.getElementById('json_file_input').value = ""
+    jsonData = ""
     overlay.style.display = "none";
     import_popup.style.display = "none"
 }
