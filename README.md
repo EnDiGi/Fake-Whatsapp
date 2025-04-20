@@ -1,5 +1,5 @@
 # Fake Whatsapp
-This is a site you can use to create fake chats to trick yor friends (if you've got any) or just to have fun.
+This is a site you can use to create fake chats to trick yor friends (if you've got any) or just to have fun.  
 The site is accessible with the link [endigi.github.io/Fake-Whatsapp](endigi.github.io/Fake-Whatsapp)
 
 ## Features
