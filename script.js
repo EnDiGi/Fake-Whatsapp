@@ -1,7 +1,7 @@
 
 let current_chat_id = 0;
 
-const blank_profile_picture = "blank_profile_picture.png"
+const blank_profile_picture = "images/blank_profile_picture.png"
 
 const message_input = document.getElementById("msg_input");
 const chat_list = document.getElementById("chat_list");
@@ -54,6 +54,22 @@ let chats = [
     }
 ]
 
+function goToChatList(){
+    document.getElementById("chat_list_ui").style.display = "block"        
+    document.getElementById("chat_ui").style.display = "none"
+}
+
+function goToChat(){
+    document.getElementById("chat_list_ui").style.display = "none"        
+    document.getElementById("chat_ui").style.display = "block"
+}
+
+function isOnMobile(){
+    if (window.matchMedia("(max-width: 800px)").matches) {
+        return true
+    }
+    return false
+}
 
 function convertTimestampToString(timestamp){
     return (new Date(timestamp).toLocaleTimeString()).slice(0, 5)
@@ -108,6 +124,8 @@ function update_chats(){
 }
 
 function changeChat(contact_data){
+
+    if(isOnMobile()) goToChat()
 
     let chat_data
 
@@ -351,7 +369,7 @@ function finishGroupCreation(){
 
     for(let label of document.getElementById("participants_list").children){
         if(label.children[0].checked){
-            participants_ids.push(label.dataset.id)
+            participants_ids.push(Number(label.dataset.id))
         }
     }
 
@@ -395,7 +413,6 @@ function createNewGroup(name, image, participants_ids){
 function openSenderPopup(message){
     overlay.style.display = "block"
     sender_popup.style.display = "block"
-
 
     for(let contact_id of chats[current_chat_id].participants){
 
@@ -504,13 +521,16 @@ document.getElementById('json_file_input').addEventListener('change', function(e
 });
 
 function importChats(data){
-    console.log(data)
 
     for(let contact of data){
         let chatData = {
             "is_group": contact.is_group,
             "name": contact.name,
             "chat": contact.chat
+        }
+
+        if(chatData.is_group){
+            chatData.participants = contact.participants
         }
 
         let contact_data = {
@@ -523,7 +543,6 @@ function importChats(data){
         chats_list.push(contact_data)
     }
 
-
     update_chats()
 }
 
@@ -533,7 +552,6 @@ function importChats(data){
 function exportChats() {
 
     const chatsToExport = chats.slice(1, chats.length)
-    console.log(chatsToExport)
 
     for(let chat of chatsToExport){
         chat.image = chats_list[chats.indexOf(chat)].image
@@ -576,12 +594,22 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
+window.addEventListener("resize", function () {
+    if(!isOnMobile()){        
+        document.getElementById("chat_list_ui").style.display = "block"        
+        document.getElementById("chat_ui").style.display = "block"        
+    } else {
+        goToChatList()
+    }
+});
+
+
 
 
 function setPage(){
     update_chats()
-
     changeChat(chats_list[0])
+    if(isOnMobile()) goToChatList()
 }
 
 setPage()

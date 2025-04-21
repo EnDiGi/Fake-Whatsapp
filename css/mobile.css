@@ -1,0 +1,20 @@
+@media (max-width: 800px) {
+
+    #chat_list_ui {
+        display: block;
+        width: 100%;
+    }
+
+    #chat_ui {
+        display: none;
+        width: 100%
+    }
+    
+    #back_to_chat_list_button {
+        display: block;
+        height: 2em;
+        width: 2em;
+        aspect-ratio: 1 / 1;
+    }
+
+}

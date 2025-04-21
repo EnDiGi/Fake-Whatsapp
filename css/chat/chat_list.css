@@ -1,0 +1,88 @@
+
+
+#chat_list_ui {
+
+    width: 30%;
+
+    margin: 0;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#chat_list {
+    height: 78dvh;
+    overflow-y: scroll;
+}
+
+.small_button {    
+    border: none;
+    background-color: #017458;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.2rem
+}
+
+.small_button:hover {
+    background-color: #005340
+}
+
+.chat_div {
+    display: flex;
+    gap: 5px;
+    margin: 5px;
+}
+
+.chat_button {
+
+    width: 90%;
+    
+    padding: 10px;
+    margin: 5px;
+
+    background-color: white;
+    
+    border: none;
+    border-bottom: 2px solid #eeeeee;
+
+    font-size: 1.5rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat_button:hover {
+    background-color: #eeeeee;
+}
+
+.list_profile_picture {
+    margin: 3px;
+    min-width: 65px;
+    max-width: 65px;
+    aspect-ratio: 1 / 1;
+}
+
+
+
+
+#new_button_container {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+
+    bottom: 0;
+    left: 0;
+}
+
+.new_button {
+    flex: 1;  
+    border: none;
+    background-color: #017458;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.2rem
+}

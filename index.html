@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href ="style.css">
     <link  href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
     <title>Fake chat</title>
+    
+    <link rel = "stylesheet" href ="css/base.css">    
+    <link rel = "stylesheet" href ="css/chat/chat_ui.css">
+    <link rel = "stylesheet" href ="css/chat/chat_list.css">
+
+    
+    <link rel = "stylesheet" href ="css/mobile.css">
+
 </head>
 <body>
     <div id = "overlay"></div>
@@ -14,7 +21,7 @@
     <div id = "contact_popup" class = "popup">        
         <h3 style = "display: flex; gap: 70px">Create contact<button onclick = "closeContactPopup()" id = "close_contact_popup" class = "close_button">&times;</button></h3>
         <div class = "center">
-            <img class = "circle profile_picture" id = "new_contact_image_preview" width = "100" height = "100" src = "blank_profile_picture.png">
+            <img class = "circle profile_picture" id = "new_contact_image_preview" width = "100" height = "100" src = "images/blank_profile_picture.png">
         </div>
         <button style = "display: none;" id = "contact_crop_button" class = "cut_confirm_button done_button" onclick = "cut_contact_image()">Crop</button><br>
         <div style = "display: flex; gap: 5px;">
@@ -29,7 +36,7 @@
     <div id = "group_popup" class = "popup">        
         <h3 style = "display: flex; gap: 70px">Create group<button onclick = "closeGroupPopup()" id = "close_group_popup" class = "close_button">&times;</button></h3>
         <div class = "center">
-            <img class = "circle profile_picture" id = "new_group_image_preview" width = "100" height = "100" src = "blank_profile_picture.png">
+            <img class = "circle profile_picture" id = "new_group_image_preview" width = "100" height = "100" src = "images/blank_profile_picture.png">
         </div>
         <button style = "display: none;" id = "group_crop_button" class = "cut_confirm_button done_button" onclick = "cut_group_image()">Crop</button><br>
         <div style = "display: flex; gap: 5px;">
@@ -67,10 +74,10 @@
         <div id="title_section">
             <h1 style = "width: 99%; display: flex; align-items: center;">Chats</h1>
             <button class = "small_button" onclick="openImportPopup()">
-                <img src = "icons/import.svg"></img>
+                <img src = "images/icons/import.svg"></img>
             </button>
             <button class = "small_button" onclick="exportChats()">
-                <img src = "icons/export.svg"></img>
+                <img src = "images/icons/export.svg"></img>
             </button>
         </div>
         
@@ -90,7 +97,8 @@
     <div id="chat_ui">
 
         <header id = "chat_info">
-            <img class = "profile_photo circle" id = "contact_image" src = "blank_profile_picture.png" width = "3dvh" height = "3dvh">
+            <button onclick = "goToChatList()" id = "back_to_chat_list_button"><img src = "images/icons/back_arrow.svg"></button>
+            <img class = "profile_photo circle" id = "contact_image" src = "images/blank_profile_picture.png" width = "3dvh" height = "3dvh">
             <p id = "contact_name"></p>
             
             <div id="ellipsis_menu">
@@ -108,16 +116,16 @@
 
         <div id = "input_div">
             <div id="msg_input_div">
-                <img src = "icons/happy_emoji.svg" class = "circle" id = "emoji_button">
+                <img src = "images/icons/happy_emoji.svg" class = "circle" id = "emoji_button">
                 <input id = "msg_input" placeholder = "Scrivi un messaggio">
             </div>
 
             <button style = "visibility: visible;" id = "receive_button" class = "circle" onclick = "sendMessage('CONTACT')">
-                <img src = "icons/send.svg">
+                <img src = "images/icons/send.svg">
             </button>
             
             <button id = "send_button" class = "circle" onclick = "sendMessage()">
-                <img src = "icons/send.svg">
+                <img src = "images/icons/send.svg">
             </button>
 
         </div>
