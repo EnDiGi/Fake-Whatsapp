@@ -600,7 +600,7 @@ window.addEventListener("resize", function () {
     if(!isOnMobile()){        
         document.getElementById("chat_list_ui").style.display = "block"        
         document.getElementById("chat_ui").style.display = "block"        
-    } else if(initialHeight.height !== this.window.innerHeight){
+    } else if(initialHeight !== this.window.innerHeight){
         ;
     } else {
         goToChatList()
