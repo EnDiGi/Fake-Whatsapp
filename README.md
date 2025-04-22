@@ -9,4 +9,4 @@ The site supports mobile devices
 - **Import & Export**. You can import and export chat via a JSON file
 
 ## Coming soon
-- **Automation**. The ability to set a message list and make your contacts write them on their own, maybe to record the screen and send videos top your friends
+- **Automation**. The ability to set a message list and make your contacts write them on their own, maybe to record the screen and send videos to your friends
